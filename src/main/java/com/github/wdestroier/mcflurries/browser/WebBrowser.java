@@ -1,4 +1,4 @@
-package com.github.wdestroier.mcflurry.browser;
+package com.github.wdestroier.mcflurries.browser;
 
 public interface WebBrowser {
 

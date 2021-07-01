@@ -1,4 +1,4 @@
-package com.github.wdestroier.mcflurry.browser;
+package com.github.wdestroier.mcflurries.browser;
 
 import java.io.File;
 import java.time.Duration;
@@ -6,6 +6,7 @@ import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -29,7 +30,11 @@ public class ChromeWebBrowser implements WebBrowser {
 
 	@Override
 	public void start() {
-		driver = new ChromeDriver();
+		var options = new ChromeOptions();
+		options.setHeadless(true);
+
+		driver = new ChromeDriver(options);
+
 		//driver.manage().timeouts().implicitlyWait(timeoutDuration);
 		//driver.manage().window().maximize();
 	}

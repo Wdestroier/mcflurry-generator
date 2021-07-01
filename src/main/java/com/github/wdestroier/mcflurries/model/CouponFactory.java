@@ -1,18 +1,30 @@
-package com.github.wdestroier.mcflurry.coupon.factory;
+package com.github.wdestroier.mcflurries.model;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.wdestroier.mcflurry.coupon.McDonaldsCoupon;
+import com.github.wdestroier.mcflurries.browser.ChromeWebBrowser;
+import com.github.wdestroier.mcflurries.browser.WebBrowser;
+import com.thedeanda.lorem.Lorem;
+import com.thedeanda.lorem.LoremIpsum;
 
-public class McFlurryCouponFactory extends CouponFactory {
+import lombok.AllArgsConstructor;
 
-	private static Logger logger = LoggerFactory.getLogger(McFlurryCouponFactory.class);
+@AllArgsConstructor
+public class CouponFactory {
 
-	@Override
-	public synchronized McDonaldsCoupon createCoupon() {
+	private static Logger logger = LoggerFactory.getLogger(CouponFactory.class);
+
+	private WebBrowser browser;
+	private Lorem lorem;
+
+	public CouponFactory() {
+		this(new ChromeWebBrowser(), LoremIpsum.getInstance());
+	}
+
+	public synchronized Coupon create() {
 		browser.start();
 
 		browser.get("https://www.mcexperiencia.com/");
@@ -39,7 +51,7 @@ public class McFlurryCouponFactory extends CouponFactory {
 
 		browser.stop();
 
-		return new McDonaldsCoupon(screenshot);
+		return new Coupon(screenshot);
 	}
 
 	private void pickCountry() {
@@ -190,6 +202,14 @@ public class McFlurryCouponFactory extends CouponFactory {
 
 	private String getRandomComment() {
 		return lorem.getWords(ThreadLocalRandom.current().nextInt(30, 40));
+	}
+
+	private void send(String xpath, CharSequence... keys) {
+		browser.send(xpath, keys);
+	}
+
+	private void click(String xpath) {
+		browser.click(xpath);
 	}
 
 }
